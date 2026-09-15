@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coders_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:29:25 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 14:03:18 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:39:48 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,18 @@ void	free_coder_list(t_coder	**coder_list)
 	free(coder_list);
 }
 
-void    add_dongles_to_coders(t_coder   **coder_list)
+void	add_dongles_to_coders(t_coder	**coder_list)
 {
-    int	i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	while (coder_list[i])
 	{
 		coder_list[i]->right_dongle = (t_dongle *)malloc(sizeof(t_dongle));
 		if (!coder_list[i]->right_dongle)
 		{
 			free_coder_list(coder_list);
-			break;
+			break ;
 		}
 		coder_list[i]->right_dongle->index = i + 1;
 		coder_list[i]->right_dongle->is_being_used = 0;
@@ -54,43 +54,43 @@ void    add_dongles_to_coders(t_coder   **coder_list)
 
 }
 
-t_coder    *init_coder(t_simulation_data *data)
+t_coder	*init_coder(t_simulation_data *data)
 {
 	t_coder	*coder;
 
 	coder = (t_coder *)malloc(sizeof(t_coder));
 	if (!coder)
 		return (NULL);
-    coder->simul_data = data;
+	coder->simul_data = data;
 	coder->last_compilation_time = 0;
 	coder->index = 0;
 	coder->is_compiling = 0;
 	coder->is_refactoring = 0;
 	coder->is_debugging = 0;
 	coder->has_burnout = 0;
-    return (coder);
+	return (coder);
 }
 
 
-t_coder   **init_coders(t_simulation_data *data)
+t_coder	**init_coders(t_simulation_data *data)
 {
-    t_coder **coder_list;
-    int     i;
-    int     n_coders;
+	t_coder	**coder_list;
+	int		i;
+	int		n_coders;
 
-    i = 0;
-    n_coders = data->number_of_coders;
-    coder_list = (t_coder **)malloc(n_coders * sizeof(t_coder *));
+	i = 0;
+	n_coders = data->number_of_coders;
+	coder_list = (t_coder **)malloc(n_coders + 1 * sizeof(t_coder *));
 	if (!coder_list)
 		return (free(coder_list), NULL);
-    while (i < n_coders)
-    {
-        coder_list[i] = init_coder(data);
+	while (i < n_coders)
+	{
+		coder_list[i] = init_coder(data);
 		if (!coder_list[i])
 			return (free(coder_list), NULL);
-        coder_list[i]->index = i + 1;
-        i++;
-    }
+		coder_list[i]->index = i + 1;
+		i++;
+	}
 	coder_list[i] = NULL;
 	add_dongles_to_coders(coder_list);
 	return (coder_list);

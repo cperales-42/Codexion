@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_codexion.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 16:02:37 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:26:32 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 typedef struct s_simulation_data
 {
 	pthread_mutex_t	log_mutex;
-	pthread_mutex_t sched_mutex;
+	pthread_mutex_t	sched_mutex;
 	pthread_cond_t	sched_cond;
 	long long		arrival_counter;
 	long long		start_time;
@@ -61,11 +61,11 @@ typedef struct s_wait_entry
 typedef struct s_dongle
 {
 	struct s_wait_entry	wait_heap[2];
-	pthread_mutex_t	mutex;
-	long long		last_release_ms;
-	int				heap_size;
-	int				index;
-	int				is_being_used;
+	long long			last_release_ms;
+	pthread_mutex_t		mutex;
+	int					heap_size;
+	int					index;
+	int					is_being_used;
 }	t_dongle;
 
 t_simulation_data	*init_args(void);
@@ -81,13 +81,17 @@ void				initialize_pthreads(t_coder **coders);
 void				join_pthreads(t_coder **coders);
 long long			get_time_in_ms(void);
 void				log_state(t_coder *coder, const char *message);
-void    			debug(t_coder *coder);
-void    			refactor(t_coder *coder);
-void    			compile(t_coder *coder);
+void				debug(t_coder *coder);
+void				refactor(t_coder *coder);
+void				compile(t_coder *coder);
 void				sleep_ms(int ms);
 int					heap_init(t_dongle *dongle);
 void				heap_destroy(t_dongle *dongle);
-int					heap_push(t_dongle *dongle, t_coder *coder, long long priority);
+int					heap_push(t_dongle *dongle, t_coder *coder,
+						long long priority);
 t_wait_entry		heap_pop(t_dongle *dongle);
 t_wait_entry		heap_peek(t_dongle *dongle);
+int					acquire_dongles(t_coder *coder);
+void				release_dongles(t_coder *coder);
+int					is_grantable(t_coder *coder);
 #endif

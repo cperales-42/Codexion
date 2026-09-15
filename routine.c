@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:23:07 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/11 13:40:02 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:39:04 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	sleep_ms(int ms)
 
 long long	get_time_in_ms(void)
 {
-	struct	timeval	tv;
-	long long	ms;
+	struct timeval	tv;
+	long long		ms;
 
 	gettimeofday(&tv, NULL);
 	ms = tv.tv_sec * 1000;
@@ -35,16 +35,20 @@ long long	get_time_in_ms(void)
 	return (ms);
 }
 
-void       *coder_routine(void *args)
+void	*coder_routine(void *args)
 {
-    t_coder *coder;
+	t_coder	*coder;
 
-    coder = (t_coder *)args;
-    while (1)
-    {
-        compile(coder);
-		debug(coder);
-		refactor(coder);
+	coder = (t_coder *)args;
+	while (!coder->simul_data->simulation_over)
+	{
+		if (acquire_dongles(coder))
+		{
+			compile(coder);
+			debug(coder);
+			refactor(coder);
+			release_dongles(coder);
+		}
 	}
 	return (NULL);
 }

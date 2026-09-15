@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priority.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 14:04:46 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 14:29:58 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/15 18:13:37 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	heap_destroy(t_dongle *dongle)
 
 int	heap_push(t_dongle *dongle, t_coder *coder, long long priority)
 {
+	t_wait_entry	tmp;
+
 	if (dongle->heap_size >= 2)
 		return (0);
 	dongle->wait_heap[dongle->heap_size].coder = coder;
@@ -32,7 +34,6 @@ int	heap_push(t_dongle *dongle, t_coder *coder, long long priority)
 	dongle->heap_size++;
 	if (dongle->heap_size == 2)
 	{
-		t_wait_entry	tmp;
 		if (dongle->wait_heap[0].priority
 			> dongle->wait_heap[1].priority)
 		{
@@ -46,7 +47,7 @@ int	heap_push(t_dongle *dongle, t_coder *coder, long long priority)
 
 t_wait_entry	heap_pop(t_dongle *dongle)
 {
-	t_wait_entry tmp;
+	t_wait_entry	tmp;
 
 	tmp.coder = NULL;
 	tmp.priority = 0;
@@ -68,7 +69,7 @@ t_wait_entry	heap_pop(t_dongle *dongle)
 
 t_wait_entry	heap_peek(t_dongle *dongle)
 {
-	t_wait_entry tmp;
+	t_wait_entry	tmp;
 
 	tmp.coder = NULL;
 	tmp.priority = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 12:42:53 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 16:02:55 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/15 19:39:28 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	put_args_in_simul_data(t_simulation_data *args, char **argv)
 	int	i;
 
 	i = 1;
-	while (argv[i + 1])
+	while (i < 8)
 	{
 		if (atoi(argv[i]) <= 0)
 		{
