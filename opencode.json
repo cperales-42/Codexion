@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "tutor",
+  "model": "opencode/big-pickle",
+  "small_model": "opencode/nemotron-3.5-lightning-free",
+  "permission": {
+    "edit": "deny",
+    "bash": {
+      "git status": "allow",
+      "git log *": "allow",
+      "git diff *": "allow",
+      "git show *": "allow",
+      "git branch -a": "allow",
+      "*": "deny"
+    },
+    "write": "deny",
+    "task": "allow",
+    "websearch": "allow",
+    "webfetch": "allow"
+  },
+  "agent": {
+    "tutor": {
+      "description": "Tutor pedagogico que responde preguntas conceptuales y teoricas sobre programacion, sistemas, y el proyecto. Explica como funcionan las cosas sin mostrar codigo.",
+      "mode": "all",
+      "model": "opencode/nemotron-3-ultra-free",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "write": "deny",
+        "task": "allow"
+      }
+    },
+    "code-reader": {
+      "description": "Lee y analiza el codigo del proyecto para entender la implementacion, pero NUNCA muestra fragmentos de codigo al usuario. Responde preguntas sobre como esta implementado algo.",
+      "mode": "subagent",
+      "model": "opencode/mimo-v2.5-free",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "write": "deny",
+        "task": "allow"
+      }
+    },
+    "flow-analyst": {
+      "description": "Analiza el flujo de ejecucion del programa. Entiende como se conectan las partes, pero describe el flujo en terminos conceptuales sin mostrar codigo.",
+      "mode": "subagent",
+      "model": "opencode/big-pickle",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "write": "deny",
+        "task": "allow"
+      }
+    }
+  },
+  "skills": {
+    "paths": [".opencode/skills"]
+  }
+}

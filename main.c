@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:18:43 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/09 12:34:00 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/11 13:21:12 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_error_mesage(void)
 int	main(int argc, char **argv)
 {
 	t_simulation_data	*args;
-	t_coder				*coders;
+	t_coder				**coders;
 
 	args = init_args();
 	if (!args)
@@ -37,12 +37,14 @@ int	main(int argc, char **argv)
 		coders = init_coders(args);
 		if (!coders)
 			return (free(args), 2);
-		free_coder_list(coders, args->number_of_coders);
-		free(args);
+		args->start_time = get_time_in_ms();
+		initialize_pthreads(coders);
+		join_pthreads(coders);
 	}
 	else
 	{
 		print_error_mesage();
 		free(args);
 	}
+	return (0);
 }
