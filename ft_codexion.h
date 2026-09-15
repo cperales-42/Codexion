@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_codexion.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 19:26:32 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/15 21:06:27 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void				log_state(t_coder *coder, const char *message);
 void				debug(t_coder *coder);
 void				refactor(t_coder *coder);
 void				compile(t_coder *coder);
+void				burn_out(t_coder *coder);
 void				sleep_ms(int ms);
 int					heap_init(t_dongle *dongle);
 void				heap_destroy(t_dongle *dongle);
