@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 13:34:59 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 21:06:07 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/16 14:11:03 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 void	compile(t_coder *coder)
 {
 	coder->is_compiling = 1;
+	coder->last_compilation_time = get_time_in_ms();
 	log_state(coder, "is compiling");
 	sleep_ms(coder->simul_data->time_to_compile);
+	coder->compile_count++;
 	coder->is_compiling = 0;
 }
 
@@ -40,5 +42,5 @@ void	burn_out(t_coder *coder)
 {
 	coder->has_burnout = 1;
 	log_state(coder, "has burned out");
-	coder->simul_data->simulation_over = 1;
 }
+

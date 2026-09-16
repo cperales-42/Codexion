@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caperale <caperale@student.42.fr>          +#+  +:+       +#+         #
+#    By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/09/07 12:00:44 by caperale          #+#    #+#              #
-#    Updated: 2026/09/15 18:15:38 by caperale         ###   ########.fr        #
+#    Updated: 2026/09/16 14:37:52 by caperale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread
 RM = rm 
 RMFLAGS = -f
 NAME = codexion
-SOURCES = main.c args_parse.c coders_parse.c routine.c pthreads.c actions.c priority.c scheduler.c
+SOURCES = main.c args_parse.c coders_parse.c routine.c pthreads.c actions.c priority.c scheduler.c monitor.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

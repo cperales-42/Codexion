@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:18:43 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/11 13:21:12 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/16 14:45:26 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv)
 {
 	t_simulation_data	*args;
 	t_coder				**coders;
+	pthread_t			monitor_thread;
 
 	args = init_args();
 	if (!args)
@@ -38,8 +39,10 @@ int	main(int argc, char **argv)
 		if (!coders)
 			return (free(args), 2);
 		args->start_time = get_time_in_ms();
+		pthread_create(&monitor_thread, NULL, monitor_routine, (void *)coders);
 		initialize_pthreads(coders);
 		join_pthreads(coders);
+		pthread_join(monitor_thread, NULL);
 	}
 	else
 	{

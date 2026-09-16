@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coders_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:29:25 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 19:39:48 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/16 13:07:56 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ t_coder	*init_coder(t_simulation_data *data)
 	coder->last_compilation_time = 0;
 	coder->index = 0;
 	coder->is_compiling = 0;
+	coder->has_dongles = 0;
 	coder->is_refactoring = 0;
 	coder->is_debugging = 0;
 	coder->has_burnout = 0;
+	coder->compile_count = 0;
 	return (coder);
 }
 

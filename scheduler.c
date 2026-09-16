@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scheduler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 14:41:16 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 19:50:25 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/16 14:41:31 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	is_grantable(t_coder *coder)
 
 	l_dongle = coder->left_dongle;
 	r_dongle = coder->right_dongle;
+	if (l_dongle == r_dongle)
+		return (0);
 	if (heap_peek(l_dongle).coder == coder
 		&& heap_peek(r_dongle).coder == coder
 		&& (!l_dongle->is_being_used
@@ -68,13 +70,15 @@ int	acquire_dongles(t_coder *coder)
 	long long		priority;
 
 	pthread_mutex_lock(&coder->simul_data->sched_mutex);
-	deadline = create_deadline();
 	priority = get_priority(coder);
 	heap_push(coder->left_dongle, coder, priority);
 	heap_push(coder->right_dongle, coder, priority);
 	while (!is_grantable(coder) && !coder->simul_data->simulation_over)
+	{
+		deadline = create_deadline();
 		pthread_cond_timedwait(&coder->simul_data->sched_cond,
 			&coder->simul_data->sched_mutex, &deadline);
+	}
 	if (!is_grantable(coder))
 	{
 		heap_pop(coder->left_dongle);
@@ -86,6 +90,7 @@ int	acquire_dongles(t_coder *coder)
 	heap_pop(coder->right_dongle);
 	coder->left_dongle->is_being_used = 1;
 	coder->right_dongle->is_being_used = 1;
+	coder->has_dongles = 1;
 	pthread_mutex_unlock(&coder->simul_data->sched_mutex);
 	return (1);
 }
@@ -99,4 +104,5 @@ void	release_dongles(t_coder *coder)
 	coder->right_dongle->last_release_ms = get_time_in_ms();
 	pthread_cond_broadcast(&coder->simul_data->sched_cond);
 	pthread_mutex_unlock(&coder->simul_data->sched_mutex);
+	coder->has_dongles = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 21:06:27 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/16 13:02:42 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_coder
 	int							is_debugging;
 	int							has_dongles;
 	int							has_burnout;
+	int							compile_count;
 }	t_coder;
 
 typedef struct s_wait_entry
