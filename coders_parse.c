@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:29:25 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/16 13:07:56 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/16 18:31:55 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	free_coder_list(t_coder	**coder_list)
 	{
 		if (coder_list[i]->right_dongle)
 			free(coder_list[i]->right_dongle);
+		free(coder_list[i]->simul_data);
 		free(coder_list[i]);
 		i++;
 	}
@@ -82,7 +83,7 @@ t_coder	**init_coders(t_simulation_data *data)
 
 	i = 0;
 	n_coders = data->number_of_coders;
-	coder_list = (t_coder **)malloc(n_coders + 1 * sizeof(t_coder *));
+	coder_list = (t_coder **)malloc((n_coders + 1) * sizeof(t_coder *));
 	if (!coder_list)
 		return (free(coder_list), NULL);
 	while (i < n_coders)

@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/16 13:02:42 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/16 18:14:16 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void				debug(t_coder *coder);
 void				refactor(t_coder *coder);
 void				compile(t_coder *coder);
 void				burn_out(t_coder *coder);
-void				sleep_ms(int ms);
+void				sleep_ms(int ms, t_simulation_data *data);
 int					heap_init(t_dongle *dongle);
 void				heap_destroy(t_dongle *dongle);
 int					heap_push(t_dongle *dongle, t_coder *coder,
@@ -96,4 +96,5 @@ t_wait_entry		heap_peek(t_dongle *dongle);
 int					acquire_dongles(t_coder *coder);
 void				release_dongles(t_coder *coder);
 int					is_grantable(t_coder *coder);
+void				*monitor_routine(void *args);
 #endif
