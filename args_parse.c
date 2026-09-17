@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 12:42:53 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 14:20:09 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 19:34:13 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ t_simulation_data	*init_args(void)
 	data->dongle_cooldown = 0;
 	data->start_time = 0;
 	data->simulation_over = 0;
+	data->arrived = 0;
 	pthread_cond_init(&data->sched_cond, NULL);
 	pthread_mutex_init(&data->log_mutex, NULL);
 	pthread_mutex_init(&data->sched_mutex, NULL);
+	pthread_mutex_init(&data->start_mutex, NULL);
+	pthread_cond_init(&data->start_cond, NULL);
 	data->scheduler = "fifo";
 	return (data);
 }

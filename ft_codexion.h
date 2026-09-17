@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_codexion.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 17:34:59 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 20:03:36 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct s_simulation_data
 {
 	pthread_mutex_t	log_mutex;
 	pthread_mutex_t	sched_mutex;
+	pthread_mutex_t	start_mutex;
+	pthread_cond_t	start_cond;
 	pthread_cond_t	sched_cond;
 	long long		start_time;
 	char			*scheduler;
@@ -33,6 +35,7 @@ typedef struct s_simulation_data
 	int				time_to_refactor;
 	int				number_of_compiles_required;
 	int				dongle_cooldown;
+	int				arrived;
 	int				simulation_over;
 }	t_simulation_data;
 
@@ -41,11 +44,10 @@ typedef struct s_coder
 	struct s_simulation_data	*simul_data;
 	struct s_dongle				*left_dongle;
 	struct s_dongle				*right_dongle;
-	pthread_mutex_t				init_mutex;
-	pthread_cond_t				init_cond;
 	long long					last_compilation_time;
 	pthread_t					thread;
 	int							index;
+	int							ready;
 	int							is_compiling;
 	int							is_refactoring;
 	int							is_debugging;

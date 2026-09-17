@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:18:43 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 17:17:00 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 18:32:50 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv)
 		coders = init_coders(args);
 		if (!coders)
 			return (free(args), 2);
-		args->start_time = get_time_in_ms();
 		pthread_create(&monitor_thread, NULL, monitor_routine, (void *)coders);
 		pthread_join(monitor_thread, NULL);
 	}

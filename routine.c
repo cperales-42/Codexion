@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:23:07 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 17:30:16 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 20:15:27 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,13 @@ void	*coder_routine(void *args)
 	t_coder	*coder;
 
 	coder = (t_coder *)args;
-	//mutear hasta que tal
-	//despertar
+	pthread_mutex_lock(&coder->simul_data->start_mutex);
+	coder->simul_data->arrived++;
+	pthread_mutex_unlock(&coder->simul_data->start_mutex);
+	if (coder->simul_data->arrived == coder->simul_data->number_of_coders)
+		pthread_cond_broadcast(&coder->simul_data->start_cond);
+	while (!coder->ready)
+		pthread_cond_wait(&coder->simul_data->start_cond, &coder->simul_data->start_mutex);
 	coder->last_compilation_time = coder->simul_data->start_time;
 	while (!coder->simul_data->simulation_over && !coder->has_burnout)
 	{

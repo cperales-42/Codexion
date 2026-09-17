@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 13:57:06 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 17:57:27 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 20:11:30 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int	coder_burned_out(t_coder *coder)
 	return (coder->has_burnout);
 }
 
-void	put_has_started(t_coder **coders)
+void	make_coders_ready(t_coder **coders)
 {
 	int	i;
 
 	i = 0;
 	while (coders[i])
 	{
-		coders[i]->has_started = 1;
+		coders[i]->ready = 1;
 		i++;
 	}
 }
@@ -62,14 +62,17 @@ void	put_has_started(t_coder **coders)
 void	*monitor_routine(void *args)
 {
 	t_coder	**coder_list;
-	int	i;
+	int		i;
 
 	coder_list = (t_coder **)args;
-	put_has_started(coder_list);
-	pthread_cond_broadcast(&coder_list[0]->init_cond);
-	pthread_mutex_unlock(&coder_list[0]->simul_data->sched_mutex);
+	pthread_mutex_lock(&coder_list[0]->simul_data->start_mutex);
+	while (coder_list[0]->simul_data->arrived < coder_list[0]->simul_data->number_of_coders)
+		pthread_cond_wait(&coder_list[0]->simul_data->start_cond, &coder_list[0]->simul_data->start_mutex);
 	coder_list[0]->simul_data->start_time = get_time_in_ms();
-	while (!all_have_compiled(coder_list) && !coder_list[0]->simul_data->simulation_over)
+	make_coders_ready(coder_list);
+	pthread_cond_broadcast(&coder_list[0]->simul_data->start_cond);
+	pthread_mutex_unlock(&coder_list[0]->simul_data->start_mutex);
+	while (!all_have_compiled(coder_list) && !coder_list[0]->simul_data->simulation_over && coder_list[0]->simul_data->arrived != coder_list[0]->simul_data->number_of_coders)
 	{
 		i = 0;
 		while (coder_list[i])
