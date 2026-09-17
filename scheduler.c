@@ -6,21 +6,21 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 14:41:16 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/16 18:40:06 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 14:32:08 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_codexion.h"
 
-long long	get_priority(t_coder *coder)
+long long	get_priority(t_coder *coder, t_dongle *d)
 {
 	long long	priority;
 
 	priority = 0;
 	if (!strcmp(coder->simul_data->scheduler, "fifo"))
 	{
-		priority = coder->simul_data->arrival_counter;
-		coder->simul_data->arrival_counter++;
+		priority = d->arrival_counter;
+		d->arrival_counter++;
 	}
 	else if (!strcmp(coder->simul_data->scheduler, "edf"))
 	{
@@ -37,8 +37,6 @@ int	is_grantable(t_coder *coder)
 
 	l_dongle = coder->left_dongle;
 	r_dongle = coder->right_dongle;
-	if (l_dongle == r_dongle)
-		return (0);
 	if (heap_peek(l_dongle).coder == coder
 		&& heap_peek(r_dongle).coder == coder
 		&& (!l_dongle->is_being_used
@@ -67,12 +65,12 @@ struct	timespec	create_deadline(void)
 int	acquire_dongles(t_coder *coder)
 {
 	struct timespec	deadline;
-	long long		priority;
 
 	pthread_mutex_lock(&coder->simul_data->sched_mutex);
-	priority = get_priority(coder);
-	heap_push(coder->left_dongle, coder, priority);
-	heap_push(coder->right_dongle, coder, priority);
+	log_state(coder, "has taken a dongle");
+	log_state(coder, "has taken a dongle");
+	heap_push(coder->left_dongle, coder, get_priority(coder, coder->left_dongle));
+	heap_push(coder->right_dongle, coder, get_priority(coder, coder->right_dongle));
 	while (!is_grantable(coder) && !coder->simul_data->simulation_over)
 	{
 		deadline = create_deadline();

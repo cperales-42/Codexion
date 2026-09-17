@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:29:25 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/16 18:31:55 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 14:20:53 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	add_dongles_to_coders(t_coder	**coder_list)
 		pthread_mutex_init(&coder_list[i]->right_dongle->mutex, NULL);
 		heap_init(coder_list[i]->right_dongle);
 		coder_list[i]->right_dongle->last_release_ms = 0;
+		coder_list[i]->right_dongle->arrival_counter = 0;
 		if (i > 0)
 			coder_list[i]->left_dongle = coder_list[i - 1]->right_dongle;
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 12:42:53 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/15 19:39:28 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 14:20:09 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_simulation_data	*init_args(void)
 	data->number_of_compiles_required = 0;
 	data->dongle_cooldown = 0;
 	data->start_time = 0;
-	data->arrival_counter = 0;
 	data->simulation_over = 0;
 	pthread_cond_init(&data->sched_cond, NULL);
 	pthread_mutex_init(&data->log_mutex, NULL);

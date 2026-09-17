@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 13:57:06 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/16 14:40:08 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 13:18:27 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	coder_burned_out(t_coder *coder)
 	long long	last_start;
 	long long	now;
 
+	if (coder->compile_count >= coder->simul_data->number_of_compiles_required)
+		return (0);
 	now = get_time_in_ms();
 	if (coder->last_compilation_time == 0)
 		last_start = coder->simul_data->start_time;

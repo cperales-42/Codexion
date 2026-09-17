@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/16 18:14:16 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 14:24:41 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_simulation_data
 	pthread_mutex_t	log_mutex;
 	pthread_mutex_t	sched_mutex;
 	pthread_cond_t	sched_cond;
-	long long		arrival_counter;
 	long long		start_time;
 	char			*scheduler;
 	int				number_of_coders;
@@ -63,6 +62,7 @@ typedef struct s_dongle
 {
 	struct s_wait_entry	wait_heap[2];
 	long long			last_release_ms;
+	long long			arrival_counter;
 	pthread_mutex_t		mutex;
 	int					heap_size;
 	int					index;
