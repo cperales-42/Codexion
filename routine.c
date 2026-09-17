@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:23:07 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/16 18:14:10 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 17:30:16 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ void	*coder_routine(void *args)
 	t_coder	*coder;
 
 	coder = (t_coder *)args;
+	//mutear hasta que tal
+	//despertar
+	coder->last_compilation_time = coder->simul_data->start_time;
 	while (!coder->simul_data->simulation_over && !coder->has_burnout)
 	{
 		if (coder->compile_count < coder->simul_data->number_of_compiles_required

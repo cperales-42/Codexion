@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 14:24:41 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 17:34:59 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_coder
 	struct s_simulation_data	*simul_data;
 	struct s_dongle				*left_dongle;
 	struct s_dongle				*right_dongle;
+	pthread_mutex_t				init_mutex;
+	pthread_cond_t				init_cond;
 	long long					last_compilation_time;
 	pthread_t					thread;
 	int							index;
@@ -49,6 +51,7 @@ typedef struct s_coder
 	int							is_debugging;
 	int							has_dongles;
 	int							has_burnout;
+	int							has_started;
 	int							compile_count;
 }	t_coder;
 

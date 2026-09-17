@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 13:57:06 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 13:18:27 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 17:57:27 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,28 @@ int	coder_burned_out(t_coder *coder)
 	return (coder->has_burnout);
 }
 
+void	put_has_started(t_coder **coders)
+{
+	int	i;
+
+	i = 0;
+	while (coders[i])
+	{
+		coders[i]->has_started = 1;
+		i++;
+	}
+}
+
 void	*monitor_routine(void *args)
 {
 	t_coder	**coder_list;
 	int	i;
 
 	coder_list = (t_coder **)args;
+	put_has_started(coder_list);
+	pthread_cond_broadcast(&coder_list[0]->init_cond);
+	pthread_mutex_unlock(&coder_list[0]->simul_data->sched_mutex);
+	coder_list[0]->simul_data->start_time = get_time_in_ms();
 	while (!all_have_compiled(coder_list) && !coder_list[0]->simul_data->simulation_over)
 	{
 		i = 0;

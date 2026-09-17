@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:29:25 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 14:20:53 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/17 17:56:12 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ t_coder	*init_coder(t_simulation_data *data)
 	coder->is_refactoring = 0;
 	coder->is_debugging = 0;
 	coder->has_burnout = 0;
+	coder->has_started = 0;
 	coder->compile_count = 0;
+	pthread_mutex_init(&coder->init_mutex, NULL);
+	pthread_cond_init(&coder->init_cond, NULL);
 	return (coder);
 }
 
