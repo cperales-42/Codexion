@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coders_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:29:25 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 20:06:38 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 14:07:59 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	free_coder_list(t_coder	**coder_list)
 	while (coder_list[i])
 	{
 		if (coder_list[i]->right_dongle)
+		{
+			pthread_mutex_destroy(&coder_list[i]->right_dongle->mutex);
 			free(coder_list[i]->right_dongle);
-		free(coder_list[i]->simul_data);
+		}
 		free(coder_list[i]);
 		i++;
 	}

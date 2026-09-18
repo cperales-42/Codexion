@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 13:57:06 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 20:11:30 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 12:47:04 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	*monitor_routine(void *args)
 	make_coders_ready(coder_list);
 	pthread_cond_broadcast(&coder_list[0]->simul_data->start_cond);
 	pthread_mutex_unlock(&coder_list[0]->simul_data->start_mutex);
-	while (!all_have_compiled(coder_list) && !coder_list[0]->simul_data->simulation_over && coder_list[0]->simul_data->arrived != coder_list[0]->simul_data->number_of_coders)
+	while (!all_have_compiled(coder_list) && !coder_list[0]->simul_data->simulation_over)
 	{
 		i = 0;
 		while (coder_list[i])

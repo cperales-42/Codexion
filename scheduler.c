@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 14:41:16 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 14:32:08 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 12:59:51 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ int	acquire_dongles(t_coder *coder)
 	struct timespec	deadline;
 
 	pthread_mutex_lock(&coder->simul_data->sched_mutex);
-	log_state(coder, "has taken a dongle");
-	log_state(coder, "has taken a dongle");
 	heap_push(coder->left_dongle, coder, get_priority(coder, coder->left_dongle));
 	heap_push(coder->right_dongle, coder, get_priority(coder, coder->right_dongle));
 	while (!is_grantable(coder) && !coder->simul_data->simulation_over)
@@ -89,6 +87,11 @@ int	acquire_dongles(t_coder *coder)
 	coder->left_dongle->is_being_used = 1;
 	coder->right_dongle->is_being_used = 1;
 	coder->has_dongles = 1;
+	if (!coder->simul_data->simulation_over)
+	{
+		log_state(coder, "has taken a dongle");
+		log_state(coder, "has taken a dongle");
+	}
 	pthread_mutex_unlock(&coder->simul_data->sched_mutex);
 	return (1);
 }

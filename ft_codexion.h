@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_codexion.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 20:03:36 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 13:57:55 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,5 @@ int					acquire_dongles(t_coder *coder);
 void				release_dongles(t_coder *coder);
 int					is_grantable(t_coder *coder);
 void				*monitor_routine(void *args);
+void				destroy_simulation_data(t_simulation_data *data);
 #endif

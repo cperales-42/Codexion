@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:18:43 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 18:32:50 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 14:00:22 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ int	main(int argc, char **argv)
 		if (!coders)
 			return (free(args), 2);
 		pthread_create(&monitor_thread, NULL, monitor_routine, (void *)coders);
+		initialize_pthreads(coders);
+		join_pthreads(coders);
 		pthread_join(monitor_thread, NULL);
+		destroy_simulation_data(args);
+		free_coder_list(coders);
+		free(args);
 	}
 	else
 	{

@@ -6,11 +6,20 @@
 /*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 12:24:22 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/11 13:27:46 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 13:57:31 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_codexion.h"
+
+void	destroy_simulation_data(t_simulation_data *data)
+{
+	pthread_mutex_destroy(&data->log_mutex);
+	pthread_mutex_destroy(&data->start_mutex);
+	pthread_mutex_destroy(&data->sched_mutex);
+	pthread_cond_destroy(&data->start_cond);
+	pthread_cond_destroy(&data->sched_cond);
+}
 
 void	log_state(t_coder *coder, const char *message)
 {
