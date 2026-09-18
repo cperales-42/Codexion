@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 13:57:06 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 20:07:45 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 20:50:23 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_codexion.h"
 
-int	all_have_compiled(t_coder **coders)
+int	all_compiled(t_coder **coders)
 {
 	int	i;
 	int	all_compiled;
@@ -31,44 +31,18 @@ int	all_have_compiled(t_coder **coders)
 	return (all_compiled);
 }
 
-int	burned_out_aux(t_coder *coder, int required, int count,
-    long long last, int burnout)
-{
-    long long	now;
-    long long	last_start;
-    int			has_dongles;
-
-    pthread_mutex_lock(&coder->simul_data->sched_mutex);
-    has_dongles = coder->has_dongles;
-    pthread_mutex_unlock(&coder->simul_data->sched_mutex);
-
-    if (count >= required)
-        return (0);
-    now = get_time_in_ms();
-    if (last == 0)
-        last_start = coder->simul_data->start_time;
-    else
-        last_start = last;
-    if (!has_dongles && now - last_start >= coder->simul_data->time_to_burnout)
-        return (1);
-    return (burnout);
-}
-
 int	coder_burned_out(t_coder *coder)
 {
-    int			count;
-    long long	last;
-    int			burnout;
+	int			count;
+	long long	last;
 
-    pthread_mutex_lock(&coder->mutex);
-    count = coder->compile_count;
-    last = coder->last_compilation_time;
-    burnout = coder->has_burnout;
-    pthread_mutex_unlock(&coder->mutex);
-
-    return (burned_out_aux(coder,
-        coder->simul_data->number_of_compiles_required,
-        count, last, burnout));
+	pthread_mutex_lock(&coder->mutex);
+	count = coder->compile_count;
+	last = coder->last_compilation_time;
+	pthread_mutex_unlock(&coder->mutex);
+	return (burned_out_aux(coder,
+			coder->simul_data->number_of_compiles_required,
+			count, last));
 }
 
 void	make_coders_ready(t_coder **coders)
@@ -104,7 +78,7 @@ void	*monitor_routine(void *args)
 	else
 	{
 		routine_aux(coders);
-		while (!all_have_compiled(coders) && !sim_is_over(coders[0]->simul_data))
+		while (!all_compiled(coders) && !sim_is_over(coders[0]->simul_data))
 		{
 			i = 0;
 			while (coders[i])

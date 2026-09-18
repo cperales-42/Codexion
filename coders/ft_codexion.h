@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_codexion.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 20:02:57 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 20:24:06 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int					heap_init(t_dongle *dongle);
 void				heap_destroy(t_dongle *dongle);
 int					heap_push(t_dongle *dongle, t_coder *coder,
 						long long priority);
+int					burned_out_aux(t_coder *coder, int required, int count,
+						long long last);
 t_wait_entry		heap_pop(t_dongle *dongle);
 t_wait_entry		heap_peek(t_dongle *dongle);
 int					acquire_dongles(t_coder *coder);

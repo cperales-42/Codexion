@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scheduler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 14:41:16 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 20:03:04 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 20:50:02 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ long long	get_priority(t_coder *coder, t_dongle *d)
 	{
 		priority = (coder->last_compilation_time
 				+ coder->simul_data->time_to_burnout);
-	}
-	else if (!strcmp(coder->simul_data->scheduler, "albrodri"))
-	{
-		priority = (coder->index * -1);
 	}
 	return (priority);
 }
