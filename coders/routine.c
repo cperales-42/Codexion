@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:23:07 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 17:52:14 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 20:06:53 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sleep_ms(int ms, t_simulation_data *data)
 	int	i;
 
 	i = 0;
-	while (i < ms && !data->sim_end)
+	while (i < ms && !sim_is_over(data))
 	{
 		usleep(1000);
 		i++;

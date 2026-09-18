@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_codexion.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 17:58:20 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 20:02:57 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void				monitor_cond_wait(t_coder *coder);
 void				log_state(t_coder *coder, const char *message);
 void				debug(t_coder *coder);
 void				refactor(t_coder *coder);
+int					sim_is_over(t_simulation_data *data);
 void				compile(t_coder *coder);
 void				burn_out(t_coder *coder);
 void				one_coder_case(t_coder *coder);

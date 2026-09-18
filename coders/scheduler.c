@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scheduler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 14:41:16 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 17:14:45 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 20:03:04 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	release_dongles(t_coder *coder)
 	coder->right_dongle->is_being_used = 0;
 	coder->left_dongle->last_release_ms = get_time_in_ms();
 	coder->right_dongle->last_release_ms = get_time_in_ms();
+	coder->has_dongles = 0;
 	pthread_cond_broadcast(&coder->simul_data->sched_cond);
 	pthread_mutex_unlock(&coder->simul_data->sched_mutex);
-	coder->has_dongles = 0;
 }
