@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scheduler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 14:41:16 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 12:59:51 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 17:14:45 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ long long	get_priority(t_coder *coder, t_dongle *d)
 	{
 		priority = (coder->last_compilation_time
 				+ coder->simul_data->time_to_burnout);
+	}
+	else if (!strcmp(coder->simul_data->scheduler, "albrodri"))
+	{
+		priority = (coder->index * -1);
 	}
 	return (priority);
 }
@@ -67,9 +71,11 @@ int	acquire_dongles(t_coder *coder)
 	struct timespec	deadline;
 
 	pthread_mutex_lock(&coder->simul_data->sched_mutex);
-	heap_push(coder->left_dongle, coder, get_priority(coder, coder->left_dongle));
-	heap_push(coder->right_dongle, coder, get_priority(coder, coder->right_dongle));
-	while (!is_grantable(coder) && !coder->simul_data->simulation_over)
+	heap_push(coder->left_dongle,
+		coder, get_priority(coder, coder->left_dongle));
+	heap_push(coder->right_dongle,
+		coder, get_priority(coder, coder->right_dongle));
+	while (!is_grantable(coder) && !coder->simul_data->sim_end)
 	{
 		deadline = create_deadline();
 		pthread_cond_timedwait(&coder->simul_data->sched_cond,
@@ -77,21 +83,12 @@ int	acquire_dongles(t_coder *coder)
 	}
 	if (!is_grantable(coder))
 	{
-		heap_pop(coder->left_dongle);
-		heap_pop(coder->right_dongle);
-		pthread_mutex_unlock(&coder->simul_data->sched_mutex);
+		not_grantable(coder);
 		return (0);
 	}
-	heap_pop(coder->left_dongle);
-	heap_pop(coder->right_dongle);
-	coder->left_dongle->is_being_used = 1;
-	coder->right_dongle->is_being_used = 1;
-	coder->has_dongles = 1;
-	if (!coder->simul_data->simulation_over)
-	{
-		log_state(coder, "has taken a dongle");
-		log_state(coder, "has taken a dongle");
-	}
+	use_dongles(coder);
+	if (!coder->simul_data->sim_end)
+		double_dongle_log(coder);
 	pthread_mutex_unlock(&coder->simul_data->sched_mutex);
 	return (1);
 }

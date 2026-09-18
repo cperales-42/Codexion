@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:23:07 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 12:29:48 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 17:52:14 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sleep_ms(int ms, t_simulation_data *data)
 	int	i;
 
 	i = 0;
-	while (i < ms && !data->simulation_over)
+	while (i < ms && !data->sim_end)
 	{
 		usleep(1000);
 		i++;
@@ -35,6 +35,18 @@ long long	get_time_in_ms(void)
 	return (ms);
 }
 
+void	routine_loop(t_coder *coder)
+{
+	if (coder->compile_count < coder->simul_data->number_of_compiles_required
+		&& acquire_dongles(coder))
+	{
+		compile(coder);
+		release_dongles(coder);
+		debug(coder);
+		refactor(coder);
+	}
+}
+
 void	*coder_routine(void *args)
 {
 	t_coder	*coder;
@@ -45,28 +57,19 @@ void	*coder_routine(void *args)
 	if (coder->simul_data->arrived == coder->simul_data->number_of_coders)
 		pthread_cond_broadcast(&coder->simul_data->start_cond);
 	while (!coder->ready)
-		pthread_cond_wait(&coder->simul_data->start_cond, &coder->simul_data->start_mutex);
+		pthread_cond_wait(&coder->simul_data->start_cond,
+			&coder->simul_data->start_mutex);
+	set_compilation_time(coder);
 	pthread_mutex_unlock(&coder->simul_data->start_mutex);
-	coder->last_compilation_time = coder->simul_data->start_time;
-	while (!coder->simul_data->simulation_over && !coder->has_burnout)
+	while (routine_loop_aux(coder))
 	{
-		if (coder->compile_count < coder->simul_data->number_of_compiles_required
-			&& acquire_dongles(coder))
-		{
-			compile(coder);
-			release_dongles(coder);
-			debug(coder);
-			refactor(coder);
-		}
-		else if (coder->compile_count
-		>= coder->simul_data->number_of_compiles_required)
+		routine_loop(coder);
+		if (coder->compile_count
+			>= coder->simul_data->number_of_compiles_required)
 			return (NULL);
 		if (coder->simul_data->time_to_burnout
 			<= get_time_in_ms() - coder->last_compilation_time)
-			{
-				burn_out(coder);
-				return (NULL);
-			}
+			burn_out(coder);
 	}
 	return (NULL);
 }

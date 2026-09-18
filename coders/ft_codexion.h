@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_codexion.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:13:29 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 13:57:55 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 17:58:20 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_simulation_data
 	int				number_of_compiles_required;
 	int				dongle_cooldown;
 	int				arrived;
-	int				simulation_over;
+	int				sim_end;
 }	t_simulation_data;
 
 typedef struct s_coder
@@ -46,6 +46,7 @@ typedef struct s_coder
 	struct s_dongle				*right_dongle;
 	long long					last_compilation_time;
 	pthread_t					thread;
+	pthread_mutex_t				mutex;
 	int							index;
 	int							ready;
 	int							is_compiling;
@@ -86,11 +87,16 @@ void				*coder_routine(void *arg);
 void				initialize_pthreads(t_coder **coders);
 void				join_pthreads(t_coder **coders);
 long long			get_time_in_ms(void);
+void				double_dongle_log(t_coder *coder);
+void				not_grantable(t_coder *coder);
+void				use_dongles(t_coder *coder);
+void				monitor_cond_wait(t_coder *coder);
 void				log_state(t_coder *coder, const char *message);
 void				debug(t_coder *coder);
 void				refactor(t_coder *coder);
 void				compile(t_coder *coder);
 void				burn_out(t_coder *coder);
+void				one_coder_case(t_coder *coder);
 void				sleep_ms(int ms, t_simulation_data *data);
 int					heap_init(t_dongle *dongle);
 void				heap_destroy(t_dongle *dongle);
@@ -102,5 +108,8 @@ int					acquire_dongles(t_coder *coder);
 void				release_dongles(t_coder *coder);
 int					is_grantable(t_coder *coder);
 void				*monitor_routine(void *args);
+int					routine_loop_aux(t_coder *coder);
+int					monitor_loop_aux(t_coder *coder);
+void				set_compilation_time(t_coder *coder);
 void				destroy_simulation_data(t_simulation_data *data);
 #endif

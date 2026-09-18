@@ -6,7 +6,7 @@
 /*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 12:42:53 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/17 19:34:13 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 16:48:37 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	validate_args(char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		if (i == 8 && strcmp(argv[i], "fifo") && strcmp(argv[i], "edf"))
+		if (i == 8 && strcmp(argv[i], "fifo") && strcmp(argv[i], "edf") && strcmp(argv[i], "albrodri"))
 			return (0);
 		else if (atoi(argv[i]) < 0 && i != 1)
 			return (0);
@@ -43,7 +43,7 @@ t_simulation_data	*init_args(void)
 	data->number_of_compiles_required = 0;
 	data->dongle_cooldown = 0;
 	data->start_time = 0;
-	data->simulation_over = 0;
+	data->sim_end = 0;
 	data->arrived = 0;
 	pthread_cond_init(&data->sched_cond, NULL);
 	pthread_mutex_init(&data->log_mutex, NULL);

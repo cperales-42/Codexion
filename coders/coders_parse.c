@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coders_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 20:29:25 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 14:07:59 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 17:38:36 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	add_dongles_to_coders(t_coder	**coder_list)
 	}
 	if (i != 0 && coder_list)
 		coder_list[0]->left_dongle = coder_list[i - 1]->right_dongle;
-
 }
 
 t_coder	*init_coder(t_simulation_data *data)
@@ -76,9 +75,9 @@ t_coder	*init_coder(t_simulation_data *data)
 	coder->has_burnout = 0;
 	coder->has_started = 0;
 	coder->compile_count = 0;
+	pthread_mutex_init(&coder->mutex, NULL);
 	return (coder);
 }
-
 
 t_coder	**init_coders(t_simulation_data *data)
 {

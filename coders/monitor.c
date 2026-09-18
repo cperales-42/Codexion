@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 13:57:06 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 12:47:04 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 17:59:52 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,32 +59,41 @@ void	make_coders_ready(t_coder **coders)
 	}
 }
 
-void	*monitor_routine(void *args)
+void	routine_aux(t_coder **coder_list)
 {
-	t_coder	**coder_list;
-	int		i;
-
-	coder_list = (t_coder **)args;
 	pthread_mutex_lock(&coder_list[0]->simul_data->start_mutex);
-	while (coder_list[0]->simul_data->arrived < coder_list[0]->simul_data->number_of_coders)
-		pthread_cond_wait(&coder_list[0]->simul_data->start_cond, &coder_list[0]->simul_data->start_mutex);
+	monitor_cond_wait(coder_list[0]);
 	coder_list[0]->simul_data->start_time = get_time_in_ms();
 	make_coders_ready(coder_list);
 	pthread_cond_broadcast(&coder_list[0]->simul_data->start_cond);
 	pthread_mutex_unlock(&coder_list[0]->simul_data->start_mutex);
-	while (!all_have_compiled(coder_list) && !coder_list[0]->simul_data->simulation_over)
+}
+
+void	*monitor_routine(void *args)
+{
+	t_coder	**coders;
+	int		i;
+
+	coders = (t_coder **)args;
+	if (coders[0]->simul_data->number_of_coders == 1)
+		one_coder_case(coders[0]);
+	else
 	{
-		i = 0;
-		while (coder_list[i])
+		routine_aux(coders);
+		while (!all_have_compiled(coders) && !coders[0]->simul_data->sim_end)
 		{
-			if (coder_burned_out(coder_list[i]))
+			i = 0;
+			while (coders[i])
 			{
-				burn_out(coder_list[i]);
-				break ;
+				if (coder_burned_out(coders[i]))
+				{
+					burn_out(coders[i]);
+					break ;
+				}
+				i++;
 			}
-			i++;
+			usleep(1000);
 		}
-		usleep(1000);
 	}
 	return (NULL);
 }

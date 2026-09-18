@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caperale <caperale@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: caperale <caperale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 11:18:43 by caperale          #+#    #+#             */
-/*   Updated: 2026/09/18 14:00:22 by caperale         ###   ########.fr       */
+/*   Updated: 2026/09/18 16:18:53 by caperale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_codexion.h"
+
+void	one_coder_case(t_coder *coder)
+{
+	usleep(coder->simul_data->time_to_burnout * 1000);
+	burn_out(coder);
+}
 
 void	print_error_mesage(void)
 {
@@ -31,7 +37,7 @@ int	main(int argc, char **argv)
 	args = init_args();
 	if (!args)
 		return (free(args), 2);
-	if (argc == 9 && validate_args(argv))
+	else if (argc == 9 && validate_args(argv))
 	{
 		if (!put_args_in_simul_data(args, argv))
 			return (1);
@@ -44,12 +50,9 @@ int	main(int argc, char **argv)
 		pthread_join(monitor_thread, NULL);
 		destroy_simulation_data(args);
 		free_coder_list(coders);
-		free(args);
 	}
 	else
-	{
 		print_error_mesage();
-		free(args);
-	}
+	free(args);
 	return (0);
 }
